@@ -40,7 +40,7 @@ console.log(process.env.PUBLIC_URL + '/logo.jpg','logo')
             style={{ letterSpacing: "0.70rem" }}
             className="flex items-left text-center font-bold uppercase text-gray-800 text-2xl cursor-pointer px-2 text-center"
           >
-                <img src={require('../../assets/logo.jpg')} height="71px" width="100px" />
+                <img src={require('../../assets/logo.jpg')} height="71px" width="100px" alt="logo" />
           </span>
         </div>
         {/* Small Screen Show */}
@@ -65,7 +65,7 @@ console.log(process.env.PUBLIC_URL + '/logo.jpg','logo')
             style={{ letterSpacing: "0.10rem" }}
             className="flex items-left text-center font-bold uppercase text-gray-800 text-2xl cursor-pointer px-2 text-center"
           >
-              <img src={require('../../assets/logo.jpg')} height="100px" width="200px" />
+              <img src={require('../../assets/logo.jpg')} height="100px" width="200px" alt="logo" />
           </span>
         </div>
         {/* Both Screen show */}
