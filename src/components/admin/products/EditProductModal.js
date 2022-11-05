@@ -2,7 +2,6 @@ import React, { Fragment, useContext, useState, useEffect } from "react";
 import { ProductContext } from "./index";
 import { editProduct, getAllProduct } from "./FetchApi";
 import { getAllCategory } from "../categories/FetchApi";
-const apiURL = process.env.REACT_APP_API_URL;
 
 const EditProductModal = (props) => {
   const { data, dispatch } = useContext(ProductContext);
@@ -27,6 +26,7 @@ const EditProductModal = (props) => {
     error: false,
     success: false,
   });
+  const [pImage, setImage] = useState([])
 
   useEffect(() => {
     fetchCategoryData();
@@ -51,8 +51,25 @@ const EditProductModal = (props) => {
       pPrice: data.editProductModal.pPrice,
       pOffer: data.editProductModal.pOffer,
     });
+    setImage(data.editProductModal.pImages)
   }, [data.editProductModal]);
-
+  const encodeImageFileAsURL = (e) => {
+    console.log(e, e.target.files[0], 'files')
+    let pImag = pImage
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function () {
+      pImag.push(reader.result)
+      setEditformdata({
+        ...editformData,
+        error: false,
+        success: false,
+        pEditImages: pImag,
+      })
+      setImage(pImag)
+    }
+    reader.readAsDataURL(file);
+  }
   const fetchData = async () => {
     let responseData = await getAllProduct();
     if (responseData && responseData.Products) {
@@ -207,12 +224,12 @@ const EditProductModal = (props) => {
                 <div className="flex space-x-1">
                   <img
                     className="h-16 w-16 object-cover"
-                    src={`${apiURL}/uploads/products/${editformData.pImages[0]}`}
+                    src={`${editformData.pImages[0]}`}
                     alt="productImage"
                   />
                   <img
                     className="h-16 w-16 object-cover"
-                    src={`${apiURL}/uploads/products/${editformData.pImages[1]}`}
+                    src={`${editformData.pImages[1]}`}
                     alt="productImage"
                   />
                 </div>
@@ -222,12 +239,7 @@ const EditProductModal = (props) => {
               <span className="text-gray-600 text-xs">Must need 2 images</span>
               <input
                 onChange={(e) =>
-                  setEditformdata({
-                    ...editformData,
-                    error: false,
-                    success: false,
-                    pEditImages: [...e.target.files],
-                  })
+                  encodeImageFileAsURL(e)
                 }
                 type="file"
                 accept=".jpg, .jpeg, .png"

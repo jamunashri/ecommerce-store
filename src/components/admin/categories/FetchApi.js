@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiURL = 'https://dvarnam.onrender.com';
+const apiURL = 'http://localhost:8000';
 
 const BearerToken = () =>
   localStorage.getItem("jwt")

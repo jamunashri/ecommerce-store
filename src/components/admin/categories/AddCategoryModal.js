@@ -78,10 +78,26 @@ const AddCategoryModal = (props) => {
         }, 2000);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error,'error');
     }
   };
-
+  const encodeImageFileAsURL= (e)=> {
+    let result = ""
+    console.log(e, e.target.files[0])
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      console.log('RESULT', reader.result)
+      result = reader.result
+      setFdata({
+        ...fData,
+        success: false,
+        error: false,
+        cImage: result,
+      });
+    }
+    reader.readAsDataURL(file);
+  }
   return (
     <Fragment>
       {/* Black Overlay */}
@@ -171,14 +187,7 @@ const AddCategoryModal = (props) => {
               <label htmlFor="name">Category Image</label>
               <input
                 accept=".jpg, .jpeg, .png"
-                onChange={(e) => {
-                  setFdata({
-                    ...fData,
-                    success: false,
-                    error: false,
-                    cImage: e.target.files[0],
-                  });
-                }}
+                onChange={(e) => encodeImageFileAsURL(e)}
                 className="px-4 py-2 border focus:outline-none"
                 type="file"
               />

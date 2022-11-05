@@ -3,7 +3,7 @@ import { getAllCategory, deleteCategory } from "./FetchApi";
 import { CategoryContext } from "./index";
 import moment from "moment";
 
-const apiURL = 'https://dvarnam.onrender.com';
+const apiURL = 'http://localhost:8000';
 
 const AllCategory = (props) => {
   const { data, dispatch } = useContext(CategoryContext);
@@ -138,7 +138,7 @@ const CategoryTable = ({ category, deleteCat, editCat }) => {
         <td className="p-2 text-center">
           <img
             className="w-12 h-12 object-cover object-center"
-            src={`${apiURL}/uploads/categories/${category.cImage}`}
+            src={`${category.cImage}`}
             alt=""
           />
         </td>

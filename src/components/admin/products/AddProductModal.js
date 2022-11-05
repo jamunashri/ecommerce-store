@@ -22,6 +22,7 @@ const AddProductDetail = ({ categories }) => {
     success: false,
     error: false,
   });
+  const [pImage, setImage] = useState([])
 
   const fetchData = async () => {
     let responseData = await getAllProduct();
@@ -88,23 +89,38 @@ const AddProductDetail = ({ categories }) => {
       console.log(error);
     }
   };
-
+  const encodeImageFileAsURL = (e) => {
+    let pImag = pImage
+    var file = e.target.files[0];
+    console.log(file, 'file')
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      pImag.push(reader.result)
+      setFdata({
+        ...fData,
+        error: false,
+        success: false,
+        pImage: pImag,
+      })
+      console.log(fData,'fdata')
+      setImage(pImag)
+    }
+    reader.readAsDataURL(file);
+  }
   return (
     <Fragment>
       {/* Black Overlay */}
       <div
         onClick={(e) => dispatch({ type: "addProductModal", payload: false })}
-        className={`${
-          data.addProductModal ? "" : "hidden"
-        } fixed top-0 left-0 z-30 w-full h-full bg-black opacity-50`}
+        className={`${data.addProductModal ? "" : "hidden"
+          } fixed top-0 left-0 z-30 w-full h-full bg-black opacity-50`}
       />
       {/* End Black Overlay */}
 
       {/* Modal Start */}
       <div
-        className={`${
-          data.addProductModal ? "" : "hidden"
-        } fixed inset-0 flex items-center z-30 justify-center overflow-auto`}
+        className={`${data.addProductModal ? "" : "hidden"
+          } fixed inset-0 flex items-center z-30 justify-center overflow-auto`}
       >
         <div className="mt-32 md:mt-0 relative bg-white w-11/12 md:w-3/6 shadow-lg flex flex-col items-center space-y-4 px-4 py-4 md:px-8">
           <div className="flex items-center justify-between w-full pt-4">
@@ -197,15 +213,10 @@ const AddProductDetail = ({ categories }) => {
               <label htmlFor="image">Product Images *</label>
               <span className="text-gray-600 text-xs">Must need 2 images</span>
               <input
-                onChange={(e) =>
-                  setFdata({
-                    ...fData,
-                    error: false,
-                    success: false,
-                    pImage: [...e.target.files],
-                  })
-                }
                 type="file"
+                onChange={(e) =>
+                  encodeImageFileAsURL(e)
+                }
                 accept=".jpg, .jpeg, .png"
                 className="px-4 py-2 border focus:outline-none"
                 id="image"
@@ -259,12 +270,12 @@ const AddProductDetail = ({ categories }) => {
                   </option>
                   {categories.length > 0
                     ? categories.map(function (elem) {
-                        return (
-                          <option name="status" value={elem._id} key={elem._id}>
-                            {elem.cName}
-                          </option>
-                        );
-                      })
+                      return (
+                        <option name="status" value={elem._id} key={elem._id}>
+                          {elem.cName}
+                        </option>
+                      );
+                    })
                     : ""}
                 </select>
               </div>
