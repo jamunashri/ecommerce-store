@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiURL = 'http://localhost:8000';
+const apiURL = 'https://dvarnam.onrender.com';
 
 export const getAllProduct = async () => {
   try {
